@@ -1,0 +1,38 @@
+#!/bin/bash
+
+###############################
+#
+#Author: Hitesh Gupta
+#Date: 31 Mar 2024
+#
+#version: v1
+#
+#This script will create a sync between the local directory /var/remote and the remote directory /var/backup
+###############################
+#
+#define variables
+
+REMOTE_USER=root
+REMOTE_IP=13.48.44.157
+REMOTE_DIR=/var/backup
+LOCAL_DIR=/var/remote
+
+#sync files using rsync command
+
+rsync -avz --delete "$LOCAL_DIR" "$REMOTE_USER@$REMOTE_IP:$REMOTE_DIR"
+RSYNC_EXIT_STATUS=$?
+
+# Check the exit status of rsync command and print appropriate message
+
+if [ $RSYNC_EXIT_STATUS -eq 0 ]; then
+  echo "Syncing complete"
+else
+  echo "Problem in syncing data"
+fi
+
+<< comment
+-a : to preserve permissions, ownership, timestamps etc
+-v : verbose mode, for detailed output
+-z : compresses data during transfer
+--delete : it will delete any file or directory on destination that is not present on source.
+comment
